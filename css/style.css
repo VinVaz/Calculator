@@ -1,0 +1,381 @@
+.calculatorBody{
+    position: absolute;
+	left: 50px;
+ }
+ .calculatorScreen{
+	position: absolute;
+	left:30.017px;
+	top:70.032px;
+ }
+ .displayScreen{
+	position: absolute;
+	left:35px;
+	top:72px;
+ }
+ .screenHeader{
+	position: absolute;
+	left:33px;
+	top:71px;
+	font-size: 12px;
+ }
+ .screenResultDisplay{
+	position: absolute;
+	right:37px;
+	top:120px;
+ }
+ .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+    supported by Chrome and Opera */
+}
+ .btnImage{
+    position: absolute;
+	left: 0px;
+	top:0px;
+ }
+ .oneButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:25.03px;
+	top:408.915px;
+	border-radius: 2px;
+ }
+ .twoButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:74.116px;
+	top:408.915px;
+	border-radius: 2px;
+ }
+ .threeButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:123.036px;
+	top:408.915px;
+	border-radius: 2px;
+ }
+  .additionButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:172.433px;
+	top:408.915px;
+	border-radius: 2px;
+ }
+  .subtractionButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:222.446px;
+	top:408.915px;
+	border-radius: 2px;
+ }
+ .fourButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:25.03px;
+	top:368.14px;
+	border-radius: 2px;
+ }
+  .fiveButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:74.116px;
+	top:368.14px;
+	border-radius: 2px;
+ }
+ .sixButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:123.036px;
+	top:368.14px;
+	border-radius: 2px;
+ }
+ .multiplicationButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:172.433px;
+	top:368.14px;
+	border-radius: 2px;
+ }
+  .divisionButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:222.446px;
+	top:368.14px;
+	border-radius: 2px;
+ }
+ .sevenButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:25.03px;
+	top:327.133px;
+	border-radius: 2px;
+ }
+ .eightButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:74.116px;
+	top:327.133px;
+	border-radius: 2px;
+ }
+  .nineButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:123.036px;
+	top:327.133px;
+	border-radius: 2px;
+ }
+ .acButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:172.433px;
+	top:327.133px;
+	border-radius: 2px;
+ }
+  .deleteButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:222.446px;
+	top:327.133px;
+	border-radius: 2px;
+ }
+ .zeroButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:25.03px;
+	top:449.594px;
+	border-radius: 2px;
+ }
+ .pointButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:74.116px;
+	top:449.594px;
+	border-radius: 2px;
+ }
+  .expButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:123.036px;
+	top:449.594px;
+	border-radius: 2px;
+ }
+ .ansButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:172.433px;
+	top:449.594px;
+	border-radius: 2px;
+ }
+  .resultButton{
+	width: 34.519px;
+	height: 23.671px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:222.446px;
+	top:449.594px;
+	border-radius: 2px;
+ }
+ .shiftButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:24.733px;
+	top:226.88px;
+	border-radius: 2px;
+ }
+ .logButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:24.733px;
+	top:260.02px;
+	border-radius: 2px;
+ }
+ .lnButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:65.121px;
+	top:260.02px;
+	border-radius: 2px;
+ }
+  .powerOfButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:145.767px;
+	top:260.02px;
+	border-radius: 2px;
+ }
+  .invertButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:105.271px;
+	top:260.02px;
+	border-radius: 2px;
+ }
+ .leftBracketButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:24.733px;
+	top:292.74px;
+	border-radius: 2px;
+ }
+  .rightBracketButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:65.700px;
+	top:292.74px;
+	border-radius: 2px;
+ }
+ .sinButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:106.471px;
+	top:292.74px;
+	border-radius: 2px;;
+ }
+ .cosButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:146.5px;
+	top:292.74px;
+	border-radius: 2px;
+ }
+  .tanButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:187.292px;
+	top:292.74px;
+	border-radius: 2px;
+ }
+ .onButton{
+	width: 31.123px;
+	height: 17,859px;
+	padding: 0px;
+	margin 0px;
+	border: none;
+	position: absolute;
+	left:227.951px;
+	top:292.74px;
+	border-radius: 2px;
+ }
+ 
