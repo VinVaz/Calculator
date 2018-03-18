@@ -5,6 +5,23 @@
 	 var resultDisplay = document.getElementById("screenResultDisplay");
 	 resultDisplay.innerHTML = "0";
 	 
+	//constants
+	 var pi = Math.PI;
+     var e = Math.E;	
+	//functions
+	 function sin(x){return Math.sin(x);}
+	 function cos(x){return Math.cos(x);}
+	 function tan(x){return Math.sin(x);}
+	 function acos(x){return Math.acos(x);}
+	 function asin(x){return Math.asin(x);}
+	 function atan(x){return Math.atan(x);}
+	 function exp(x){return Math.exp(x);}
+	 //function log(x){return Math.log(x);}
+	 function ln(x){return Math.log(x);}
+	 //function pow(x){return Math.pow(x);}
+	 function sqrt(x){return Math.sqrt(x);}
+	 //function factorial(x){return Math.cos(x);}
+
 	 
 	// this function save all the values pressed and then show them together in the screen
 	  var screenMemory = "";
@@ -26,43 +43,7 @@
 		if(screenMemory.length>10) screenMemory.slice(0, 10);
 		resultDisplay.innerHTML = eval(screenMemory);
 	  }
-	(function(){
-	   pi = "3.1415";	
-	})();
 	
-	function myPow(x, y){
-		var result = 1;
-		for(var i=0; i<y; i++){
-			result *= x;
-		}
-	return result;	
-	}
-	//create a sin function 
-	function sin(x){
-		var signal = -1;
-		var y = 0;
-		var sumCount = 0;
-		var factorialCount = 1;
-		var factorial = 1;
-		var sum = 0;
-		var power = 0;
-		
-		for(var i=0; i<20; i++){
-		   power = (2*i+1);
-		   signal *= -1;
-			for(var j=0; j<power; j++){
-				factorial *= factorialCount;  
-				factorialCount++;
-			}
-			y = myPow(x, power);
-			sumCount = signal * y / factorial;
-			sum += sumCount;
-			var factorialCount = 1;
-		    var factorial = 1;
-		}
-		 return sum;
-	   }
-	//end of the function   
 	
     var Ans = 0;	
 	function toAnsMemory(){
