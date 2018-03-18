@@ -6,18 +6,16 @@
 	 resultDisplay.innerHTML = "0";
 	 
 	 
-	// this function save all the values pressed to show them together in the screen
+	// this function save all the values pressed and then show them together in the screen
 	  var screenMemory = "";
-	  var countInput = 0;
+
 	  function sendToScreen(string){
-        countInput++;
-        if(countInput <= 10){		
 		screenMemory += string;
-		}
 		display.innerHTML = screenMemory;
 	  }
-	  countInput = 0;
-	//all the functions triggered by buttons
+
+	//represent all the functions that are triggered by simple buttons
+	
 	  function screenDelete(){
 		var lastPosition = screenMemory.length - 1;
 		screenMemory = screenMemory.slice(0, lastPosition);
