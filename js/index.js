@@ -3,8 +3,19 @@
      var display = document.getElementById("displayScreen");
 	 var headerDisplay = document.getElementById("screenHeader");
 	 var resultDisplay = document.getElementById("screenResultDisplay");
-	 resultDisplay.innerHTML = "0";
-	 
+	 var calculatorIsOn = false;
+	
+
+    //start the calculator	
+	document.getElementById("onButton").onclick = function(){
+	    display.innerHTML = "";
+	    headerDisplay.innerHTML = "";
+		resultDisplay.innerHTML = "0";
+		screenMemory = "";
+		CalculatorIsOn = true;
+		
+	};
+	
 	//constants
 	 var pi = Math.PI;
      var e = Math.E;	
@@ -16,10 +27,10 @@
 	 function asin(x){return Math.asin(x);}
 	 function atan(x){return Math.atan(x);}
 	 function exp(x){return Math.exp(x);}
-	 //function log(x){return Math.log(x);}
+	 function log(x){return Math.log10(x);}
 	 function ln(x){return Math.log(x);}
-	 //function pow(x){return Math.pow(x);}
-	 function sqrt(x){return Math.sqrt(x);}
+	 function pow(x){return Math.pow(x);}
+	 function SQR(x){return Math.sqrt(x);}
 	 //function factorial(x){return Math.cos(x);}
 
 	 
@@ -27,8 +38,10 @@
 	  var screenMemory = "";
 
 	  function sendToScreen(string){
-		screenMemory += string;
-		display.innerHTML = screenMemory;
+		if(screenMemory.length<=10){
+			screenMemory += string;
+		    display.innerHTML = screenMemory;
+		}	
 	  }
 
 	//represent all the functions that are triggered by simple buttons
@@ -39,18 +52,17 @@
 		display.innerHTML = screenMemory;
 	  }    
 	  function showResultOnScreen(){
-		//reduce the size of the number so it can fit on the screen
-		if(screenMemory.length>10) screenMemory.slice(0, 10);
-		resultDisplay.innerHTML = eval(screenMemory);
+		//add some restriction to the size here:
+		var result = screenMemory;
+		resultDisplay.innerHTML = eval(result);
 	  }
 	
-	
+	//define Ans features
     var Ans = 0;	
 	function toAnsMemory(){
 		Ans = eval(screenMemory);
 		screenMemory = "";	
 	}	
-	
 	
     //section intended to sinalize if the shift button is active or not
 	  var shiftActive = false;
@@ -114,13 +126,15 @@
 	  valueBtnAfterShift("invertButton", "^(-1)", "!");
 	  valueBtnAfterShift("powerOfButton", "^(", "SQR(");
 
-	// buttons that do not represent characters set on the screen
+	//buttons that do not represent characters set on the screen
 	document.getElementById("acButton").onclick = function(){
 		
 		    if(shiftActive==true){
 				display.innerHTML = "";
 				headerDisplay.innerHTML = "";
 				resultDisplay.innerHTML = "";
+				screenMemory = "";
+				calculatorIsOn = false;
 			}
 			else if(shiftActive==false){
 				display.innerHTML = "";
@@ -128,6 +142,7 @@
 				resultDisplay.innerHTML = "0";
 			}        
     };
+	
 	document.getElementById("deleteButton").onclick = function(){
 	    screenDelete();
 	};		
