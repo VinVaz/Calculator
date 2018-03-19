@@ -3,7 +3,10 @@
      var display = document.getElementById("displayScreen");
 	 var headerDisplay = document.getElementById("screenHeader");
 	 var resultDisplay = document.getElementById("screenResultDisplay");
+	 
 	 var calculatorIsOn = false;
+	 var screenMemory = "";
+	 var shiftIsOn = false;
 	 
 	 function initialState(){
 		display.innerHTML = "";
@@ -11,14 +14,15 @@
 		resultDisplay.innerHTML = "0";
 		screenMemory = "";
 	 }
-	
-
     //start the calculator	
 	document.getElementById("onButton").onclick = function(){
 		initialState();
 		calculatorIsOn = true;
+		startCalculator();
 	};
 	
+function startCalculator(){
+		
 	//constants
 	 var pi = Math.PI;
      var e = Math.E;	
@@ -36,10 +40,7 @@
 	 function SQR(x){return Math.sqrt(x);}
 	 //function factorial(x){return Math.cos(x);}
 
-	 
 	// this function save all the values pressed and then show them together in the screen
-	  var screenMemory = "";
-
 	  function sendToScreen(string){
 		if(screenMemory.length<=10){
 			screenMemory += string;
@@ -58,34 +59,31 @@
 		var result = screenMemory;
 		resultDisplay.innerHTML = eval(result);
 	  }
-	
 	//define Ans features
     var Ans = 0;	
 	function toAnsMemory(){
 		Ans = eval(screenMemory);
 		screenMemory = "";	
 	}	
-	
     //section intended to sinalize if the shift button is active or not
-	  var shiftActive = false;
 	  function turnShiftOn(){
-		shiftActive = true;
+		shiftIsOn = true;
 		headerDisplay.innerHTML = "shift";
 	  }
 	  function turnShiftOff(){
-		shiftActive = false;
+		shiftIsOn = false;
 		headerDisplay.innerHTML = "";
 	  }
 	  document.getElementById("shiftButton").onclick = function(){
-		if(shiftActive==false) turnShiftOn();    
-	    else if(shiftActive==true) turnShiftOff();
-	  };
-	  
+		if(shiftIsOn) turnShiftOff();
+	    else turnShiftOn();
+	  }; 
 	//function to simplify the process of evaluate the buttons with their correspondent string value
 	  function valueBtn(id, val){
 		document.getElementById(id).onclick = function(){
 	    sendToScreen(val);
 		turnShiftOff();
+		turnResultOff();
 	  };
 	}	
 	//buttons that display their values on the screen when pressed
@@ -114,16 +112,17 @@
 	  //function to simplify the process of give the buttons their values triggered after the shift
 	function valueBtnAfterShift(id, valShiftOff, valShiftOn){
 		document.getElementById(id).onclick = function(){
-			if(shiftActive==true) sendToScreen(valShiftOn);
-			else if(shiftActive==false) sendToScreen(valShiftOff);
+			if(shiftIsOn==true) sendToScreen(valShiftOn);
+			else if(shiftIsOn==false) sendToScreen(valShiftOff);
 			turnShiftOff();
+			turnResultOff();
 	    };
 	}
 	// buttons that are triggered by the shift button
 	  valueBtnAfterShift("expButton", "", "pi");
-	  valueBtnAfterShift("sinButton", "sin(", "arcsin(");
-	  valueBtnAfterShift("cosButton", "cos(", "arccos(");
-	  valueBtnAfterShift("tanButton", "tan(", "arctan(");
+	  valueBtnAfterShift("sinButton", "sin(", "asin(");
+	  valueBtnAfterShift("cosButton", "cos(", "accos(");
+	  valueBtnAfterShift("tanButton", "tan(", "atan(");
 	  valueBtnAfterShift("lnButton", "ln(", "exp(");
 	  //valueBtnAfterShift("invertButton", "^(-1)", "!");
 	  //valueBtnAfterShift("powerOfButton", "^(", "SQR(");
@@ -131,21 +130,29 @@
 	//buttons that do not represent characters set on the screen
 	document.getElementById("acButton").onclick = function(){
 	    initialState();
-		    if(shiftActive==true){
+		turnResultOff();
+		    if(shiftIsOn){
 				resultDisplay.innerHTML = "";
 				calculatorIsOn = false;
 			}      
     };
-	
 	document.getElementById("deleteButton").onclick = function(){
-	    screenDelete();
-	};	
-	
+         screenDelete();
+	};
+    var turnResultOff = function(){
+		isResultOnScreen = false;
+	}	
+	//gives the result onto the screen
+	var isResultOnScreen = false;
 	document.getElementById("resultButton").onclick = function(){
+		if(isResultOnScreen==false){
 			showResultOnScreen();
 		    toAnsMemory();
 		    display.innerHTML = "";
 		    turnShiftOff();
+		}
+	    isResultOnScreen = true;	
 	};
-	
+}
+
 	//}); 
