@@ -4,16 +4,19 @@
 	 var headerDisplay = document.getElementById("screenHeader");
 	 var resultDisplay = document.getElementById("screenResultDisplay");
 	 var calculatorIsOn = false;
+	 
+	 function initialState(){
+		display.innerHTML = "";
+	    headerDisplay.innerHTML = "";
+		resultDisplay.innerHTML = "0";
+		screenMemory = "";
+	 }
 	
 
     //start the calculator	
 	document.getElementById("onButton").onclick = function(){
-	    display.innerHTML = "";
-	    headerDisplay.innerHTML = "";
-		resultDisplay.innerHTML = "0";
-		screenMemory = "";
-		CalculatorIsOn = true;
-		
+		initialState();
+		calculatorIsOn = true;
 	};
 	
 	//constants
@@ -45,7 +48,6 @@
 	  }
 
 	//represent all the functions that are triggered by simple buttons
-	
 	  function screenDelete(){
 		var lastPosition = screenMemory.length - 1;
 		screenMemory = screenMemory.slice(0, lastPosition);
@@ -122,35 +124,28 @@
 	  valueBtnAfterShift("sinButton", "sin(", "arcsin(");
 	  valueBtnAfterShift("cosButton", "cos(", "arccos(");
 	  valueBtnAfterShift("tanButton", "tan(", "arctan(");
-	  valueBtnAfterShift("lnButton", "ln(", "e^(");
-	  valueBtnAfterShift("invertButton", "^(-1)", "!");
-	  valueBtnAfterShift("powerOfButton", "^(", "SQR(");
+	  valueBtnAfterShift("lnButton", "ln(", "exp(");
+	  //valueBtnAfterShift("invertButton", "^(-1)", "!");
+	  //valueBtnAfterShift("powerOfButton", "^(", "SQR(");
 
 	//buttons that do not represent characters set on the screen
 	document.getElementById("acButton").onclick = function(){
-		
+	    initialState();
 		    if(shiftActive==true){
-				display.innerHTML = "";
-				headerDisplay.innerHTML = "";
 				resultDisplay.innerHTML = "";
-				screenMemory = "";
 				calculatorIsOn = false;
-			}
-			else if(shiftActive==false){
-				display.innerHTML = "";
-				screenMemory = "";
-				resultDisplay.innerHTML = "0";
-			}        
+			}      
     };
 	
 	document.getElementById("deleteButton").onclick = function(){
 	    screenDelete();
-	};		
+	};	
+	
 	document.getElementById("resultButton").onclick = function(){
-		showResultOnScreen();
-		toAnsMemory();
-		display.innerHTML = "";
-		turnShiftOff();
+			showResultOnScreen();
+		    toAnsMemory();
+		    display.innerHTML = "";
+		    turnShiftOff();
 	};
 	
 	//}); 
