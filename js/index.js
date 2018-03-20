@@ -54,21 +54,28 @@ function startCalculator(){
 		screenMemory = screenMemory.slice(0, lastPosition);
 		display.innerHTML = screenMemory;
 	  }
+	  
+	  
       var resultRegex = /(\d+)(?:[.](\d+))?/;
       var max = "";	  
 	  function showResultOnScreen(){
-		//aply restriction to the size that it will be shown
-		//the limit of digits in the result must be 12
+		//aply restriction to the size that it will be shown:
+		//the output must have less than 12 digits
 		var result = eval(screenMemory);
 		var resultArr = resultRegex.exec(result.toString());
 		var integerOfResult = resultArr[1];
 		var integerLength = integerOfResult.toString().length;
-		if(11 - integerLength >= 0 ) decimalMaxLength = 11 - integerLength;
-		else decimalMaxLength = 0;
+		  if(11 - integerLength >= 0 ) decimalMaxLength = 11 - integerLength;
+		  else decimalMaxLength = 0;
 		if(result%1 != 0) result = result.toFixed(decimalMaxLength);
 		if(integerLength>12) result = result.toExponential(6);
+		//remove the trailling zeros:
+        	result = result.toString().replace(/([.][1-9]+)[0]+(?!\d)/, '$1');	
+		//show the result on the display:	
 		resultDisplay.innerHTML = result.toString();
 	  }
+	  
+	  
 	//define Ans features
     var Ans = 0;	
 	function toAnsMemory(){
