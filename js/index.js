@@ -68,11 +68,11 @@ function startCalculator(){
 		  if(11 - integerLength >= 0 ) decimalMaxLength = 11 - integerLength;
 		  else decimalMaxLength = 0;
 		if(result%1 != 0) result = result.toFixed(decimalMaxLength);
-		if(integerLength>12) result = result.toExponential(6);
+		if(integerLength>11) result = result.toExponential(6);
 		//remove the trailling zeros:
-        	result = result.toString().replace(/([.][1-9]+)[0]+(?!\d)/, '$1');	
+        	result = result.toString().replace(/([.]\d*[1-9]+)[0]+(?!\d)/, '$1');	
 		//show the result on the display:	
-		resultDisplay.innerHTML = result.toString();
+		resultDisplay.innerHTML = result;
 	  }
 	  
 	  
