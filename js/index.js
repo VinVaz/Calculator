@@ -18,11 +18,11 @@
 	document.getElementById("onButton").onclick = function(){
 		initialState();
 		calculatorIsOn = true;
-		startCalculator();
+		if(calculatorIsOn) runCalculator();
 	};
 	
-function startCalculator(){
-		
+function runCalculator(){
+
 	//constants
 	 var pi = Math.PI;
      var e = Math.E;	
@@ -84,7 +84,7 @@ function startCalculator(){
 		resultDisplay.innerHTML = result;
 	  }
 	  
-	  
+
 	//define Ans features
     var Ans = 0;	
 	function toAnsMemory(){
@@ -112,6 +112,7 @@ function startCalculator(){
 		turnResultOff();
 	  };
 	}	
+		
 	//buttons that display their values on the screen when pressed
 	//the function will receive as the first value the button's id
 	//as the second value the string that represents that button
@@ -134,7 +135,7 @@ function startCalculator(){
 	  valueBtn("divisionButton", "/");
 	  valueBtn("multiplicationButton", "*");
 	  valueBtn("ansButton", "Ans");
-	  
+  
 	  //function to simplify the process of give the buttons their values triggered after the shift
 	function valueBtnAfterShift(id, valShiftOff, valShiftOn){
 		document.getElementById(id).onclick = function(){
@@ -154,6 +155,7 @@ function startCalculator(){
 	  //valueBtnAfterShift("powerOfButton", "^(", "SQR(");
 
 	//buttons that do not represent characters set on the screen
+	//ac button also controls the OFF button
 	document.getElementById("acButton").onclick = function(){
 	    initialState();
 		turnResultOff();
@@ -179,6 +181,7 @@ function startCalculator(){
 		}
 	    isResultOnScreen = true;	
 	};
+	if(calculatorIsOn == false) return; 	
 }
-
+     
 	//}); 
