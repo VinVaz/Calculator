@@ -55,28 +55,31 @@ function startCalculator(){
 		display.innerHTML = screenMemory;
 	  }
 	  
-	  //limits the size of the output to 12 digits at most
+	  //limits the size of the output to a number with no more than 12 digits
 	  function controlSizeOf(result){
 		var resultRegex = /(\d+)(?:[.](\d+))?/;
-        var max = "";
+        var decimalMaxLength = "";
+		
 		if(result%1 != 0){
 			var resultArr = resultRegex.exec(result.toString());
 			var integerOfResult = resultArr[1];
 			var integerLength = integerOfResult.toString().length;
-			if(11 - integerLength >= 0 ) decimalMaxLength = 11 - integerLength;
-			else decimalMaxLength = 0;
+			  //controls the relation bettween the size of the integer and the decimal
+			  if(integerLength <= 11) decimalMaxLength = 11 - integerLength;
+			  else decimalMaxLength = 0;
 			result = result.toFixed(decimalMaxLength);
 			//remove the trailling zeros:
         	result = Number(result.toString().replace(/([.]\d*[1-9]+)[0]+(?!\d)/, '$1'));
             if(integerLength>11) result = result.toExponential(6);			
 		}
 		else if(result.toString().length>11) result = result.toExponential(6);
+		return result;
 	  }
 	  
       	  
 	  function showResultOnScreen(){
 		var result = eval(screenMemory);
-		controlSizeOf(result);
+		result = controlSizeOf(result);
 		//show the result on the display:	
 		resultDisplay.innerHTML = result;
 	  }
