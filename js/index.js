@@ -55,22 +55,28 @@ function startCalculator(){
 		display.innerHTML = screenMemory;
 	  }
 	  
+	  //limits the size of the output to 12 digits at most
+	  function controlSizeOf(result){
+		var resultRegex = /(\d+)(?:[.](\d+))?/;
+        var max = "";
+		if(result%1 != 0){
+			var resultArr = resultRegex.exec(result.toString());
+			var integerOfResult = resultArr[1];
+			var integerLength = integerOfResult.toString().length;
+			if(11 - integerLength >= 0 ) decimalMaxLength = 11 - integerLength;
+			else decimalMaxLength = 0;
+			result = result.toFixed(decimalMaxLength);
+			//remove the trailling zeros:
+        	result = Number(result.toString().replace(/([.]\d*[1-9]+)[0]+(?!\d)/, '$1'));
+            if(integerLength>11) result = result.toExponential(6);			
+		}
+		else if(result.toString().length>11) result = result.toExponential(6);
+	  }
 	  
-      var resultRegex = /(\d+)(?:[.](\d+))?/;
-      var max = "";	  
+      	  
 	  function showResultOnScreen(){
-		//aply restriction to the size that it will be shown:
-		//the output must have less than 12 digits
 		var result = eval(screenMemory);
-		var resultArr = resultRegex.exec(result.toString());
-		var integerOfResult = resultArr[1];
-		var integerLength = integerOfResult.toString().length;
-		  if(11 - integerLength >= 0 ) decimalMaxLength = 11 - integerLength;
-		  else decimalMaxLength = 0;
-		if(result%1 != 0) result = result.toFixed(decimalMaxLength);
-		if(integerLength>11) result = result.toExponential(6);
-		//remove the trailling zeros:
-        	result = result.toString().replace(/([.]\d*[1-9]+)[0]+(?!\d)/, '$1');	
+		controlSizeOf(result);
 		//show the result on the display:	
 		resultDisplay.innerHTML = result;
 	  }
