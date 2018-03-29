@@ -1,3 +1,6 @@
+body{
+background-color:#FFE9E8;
+}
 .calculatorBody{
     position: absolute;
 	left: 30%;
@@ -379,4 +382,5 @@
 	top:292.74px;
 	border-radius: 2px;
  }
+ 
  

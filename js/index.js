@@ -1,5 +1,4 @@
-//$(document).ready(function() {
-	
+
      var display = document.getElementById("displayScreen");
 	 var headerDisplay = document.getElementById("screenHeader");
 	 var resultDisplay = document.getElementById("screenResultDisplay");
@@ -14,15 +13,12 @@
 		resultDisplay.innerHTML = "0";
 		screenMemory = "";
 	 }
-    //start the calculator	
+    //starts the calculator	
 	document.getElementById("onButton").onclick = function(){
 		initialState();
 		calculatorIsOn = true;
-		if(calculatorIsOn) runCalculator();
 	};
 	
-function runCalculator(){
-
 	//constants
 	 var pi = Math.PI;
      var e = Math.E;	
@@ -39,23 +35,24 @@ function runCalculator(){
 	 function pow(x){return Math.pow(x);}
 	 function SQR(x){return Math.sqrt(x);}
 	 //function factorial(x){return Math.cos(x);}
-
-	// this function save all the values pressed and then show them together in the screen
+ 
+	var isResultShown = false;
+	//saves all the values pressed and then show them together on screen
 	  function sendToScreen(string){
 		if(screenMemory.length<=9){
 			screenMemory += string;
 		    display.innerHTML = screenMemory;
-		}	
+		}
+		isResultShown = false;
 	  }
-
-	//represent all the functions that are triggered by simple buttons
+	//deletes only the last element shown on the screen
 	  function screenDelete(){
 		var lastPosition = screenMemory.length - 1;
 		screenMemory = screenMemory.slice(0, lastPosition);
 		display.innerHTML = screenMemory;
 	  }
 	  
-	  //limits the size of the output to a number with no more than 12 digits
+	  //limits the size of the output to 12 digits at most
 	  function controlSizeOf(result){
 		var resultRegex = /(\d+)(?:[.](\d+))?/;
         var decimalMaxLength = "";
@@ -76,22 +73,20 @@ function runCalculator(){
 		return result;
 	  }
 	  
-      	  
+      //takes the stored value in memory and show it on the screen 
 	  function showResultOnScreen(){
 		var result = eval(screenMemory);
 		result = controlSizeOf(result);
-		//show the result on the display:	
 		resultDisplay.innerHTML = result;
 	  }
 	  
-
-	//define Ans features
+	//sends screen memory to ANS to be stored
     var Ans = 0;	
-	function toAnsMemory(){
+	  function toAnsMemory(){
 		Ans = eval(screenMemory);
-		screenMemory = "";	
-	}	
-    //section intended to sinalize if the shift button is active or not
+	    screenMemory = "";
+	  }
+    //indicates whether the shift button is active or not
 	  function turnShiftOn(){
 		shiftIsOn = true;
 		headerDisplay.innerHTML = "shift";
@@ -101,21 +96,23 @@ function runCalculator(){
 		headerDisplay.innerHTML = "";
 	  }
 	  document.getElementById("shiftButton").onclick = function(){
-		if(shiftIsOn) turnShiftOff();
-	    else turnShiftOn();
+		if(calculatorIsOn){
+			if(shiftIsOn) turnShiftOff();
+	        else turnShiftOn();
+		}
 	  }; 
-	//function to simplify the process of evaluate the buttons with their correspondent string value
+	  
+	//simplify the process of evaluating the buttons with their correspondent string value
 	  function valueBtn(id, val){
-		document.getElementById(id).onclick = function(){
-	    sendToScreen(val);
-		turnShiftOff();
-		turnResultOff();
-	  };
-	}	
-		
-	//buttons that display their values on the screen when pressed
-	//the function will receive as the first value the button's id
-	//as the second value the string that represents that button
+		document.getElementById(id).addEventListener("click", function(){
+			if(calculatorIsOn){
+			sendToScreen(val);
+		    turnShiftOff();
+			}
+	    });
+	  }
+	//receives the button's id as the first paramether and the  
+	//value that these buttons represent as the second paramether
 	  valueBtn("oneButton", "1");
 	  valueBtn("twoButton", "2");
 	  valueBtn("threeButton", "3");
@@ -136,13 +133,14 @@ function runCalculator(){
 	  valueBtn("multiplicationButton", "*");
 	  valueBtn("ansButton", "Ans");
   
-	  //function to simplify the process of give the buttons their values triggered after the shift
+	//simplify the process of giving to buttons their values after triggered by shift
 	function valueBtnAfterShift(id, valShiftOff, valShiftOn){
 		document.getElementById(id).onclick = function(){
+		  if(calculatorIsOn){
 			if(shiftIsOn==true) sendToScreen(valShiftOn);
 			else if(shiftIsOn==false) sendToScreen(valShiftOff);
 			turnShiftOff();
-			turnResultOff();
+		  }
 	    };
 	}
 	// buttons that are triggered by the shift button
@@ -154,34 +152,34 @@ function runCalculator(){
 	  //valueBtnAfterShift("invertButton", "^(-1)", "!");
 	  //valueBtnAfterShift("powerOfButton", "^(", "SQR(");
 
-	//buttons that do not represent characters set on the screen
+
 	//ac button also controls the OFF button
 	document.getElementById("acButton").onclick = function(){
-	    initialState();
-		turnResultOff();
+	  if(calculatorIsOn){
+		initialState();
 		    if(shiftIsOn){
 				resultDisplay.innerHTML = "";
 				calculatorIsOn = false;
-			}      
+			}		
+	  }
     };
+	//deletes all the numbers shown on the screen
 	document.getElementById("deleteButton").onclick = function(){
+		if(calculatorIsOn){
          screenDelete();
+		}
 	};
-    var turnResultOff = function(){
-		isResultOnScreen = false;
-	}	
-	//gives the result onto the screen
-	var isResultOnScreen = false;
+	//provides the result on the screen
 	document.getElementById("resultButton").onclick = function(){
-		if(isResultOnScreen==false){
+	  if(calculatorIsOn){
+		if(isResultShown==false){
 			showResultOnScreen();
 		    toAnsMemory();
 		    display.innerHTML = "";
 		    turnShiftOff();
 		}
-	    isResultOnScreen = true;	
+	    isResultShown = true;
+      }		
 	};
-	if(calculatorIsOn == false) return; 	
-}
+
      
-	//}); 
