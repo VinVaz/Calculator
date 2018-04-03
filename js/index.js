@@ -1,20 +1,14 @@
 
-     var display = document.getElementById("displayScreen");
+     var mainDisplay = document.getElementById("displayScreen");
 	 var headerDisplay = document.getElementById("screenHeader");
 	 var resultDisplay = document.getElementById("screenResultDisplay");
 	 
-	 var screenMemory = "";
 	 var shiftIsOn = false;
 	 var isResultShown = false;
 	 var calculatorIsOn = false;
 	 
-	 function initialState(){
-		display.innerHTML = "";
-	    headerDisplay.innerHTML = "";
-		resultDisplay.innerHTML = "0";
-		screenMemory = "";
-	 }
-    //starts the calculator	
+	 
+    //starts the calculator
 	document.getElementById("onButton").onclick = function(){
 		initialState();
 		calculatorIsOn = true;
@@ -38,47 +32,54 @@
 	 //function factorial(x){return Math.cos(x);}
  
  
-//*****************************************MEMORY******************************************************
-	//saves all the values pressed and then show them together on screen
-	
+	//store all the values passed
 	var memory = {
 		data: [],	
-	    sendValue: function(string){
-			    this.data.push(string);
+	    add: function(string){
+			this.data.push(string);
 		},
-		deleteValue: function(){
-				this.data.pop();
+		deleteLast: function(){
+			this.data.pop();
 		},
         toString: function(){
 			return this.data.join("");
+		},
+        clear: function(){
+			this.data = [];
 		}		
 	}
+	 function initialState(){
+		mainDisplay.innerHTML = "";
+	    headerDisplay.innerHTML = "";
+		resultDisplay.innerHTML = "0";
+		memory.clear();
+	 }
+	 
 	  function sendToScreen(string){
 		if(memory.toString().length<=9){
-			memory.sendValue(string);
-		    display.innerHTML = memory.toString();
+			memory.add(string);
+		    mainDisplay.innerHTML = memory.toString();
 		}
 		isResultShown = false;
 	  }
-	 //takes the stored value in memory and show it on the screen 
-	  function showResultOnScreen(){
-		var result = eval(screenMemory);
+	 //takes the stored values in memory and show them on screen 
+	  function showResult(){
+		var result = eval(memory.toString());
 		result = controlSizeOf(result);
 		resultDisplay.innerHTML = result;
 	  }
 	  //sends screen memory to ANS to be stored
     var Ans = 0;	
-	  function toAnsMemory(){
-		Ans = eval(screenMemory);
-	    screenMemory = "";
+	  function saveAnsMemory(){
+		Ans = eval(memory.toString());
+	    memory.clear();
 	  }
 	//deletes only the last element shown on the screen
 	  function screenDelete(){
-		var lastPosition = screenMemory.length - 1;
-		screenMemory = screenMemory.slice(0, lastPosition);
-		display.innerHTML = screenMemory;
+		memory.deleteLast();
+		mainDisplay.innerHTML = memory.toString();
 	  }
-//*****************************************END******************************************************  
+
 
 	  //limits the size of the output to 12 digits at most
 	  function controlSizeOf(result){
@@ -187,9 +188,9 @@
 	document.getElementById("resultButton").onclick = function(){
 	  if(calculatorIsOn){
 		if(isResultShown==false){
-			showResultOnScreen();
-		    toAnsMemory();
-		    display.innerHTML = "";
+			showResult();
+		    saveAnsMemory();
+		    mainDisplay.innerHTML = "";
 		    turnShiftOff();
 		}
 	    isResultShown = true;
