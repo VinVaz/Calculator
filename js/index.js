@@ -3,9 +3,10 @@
 	 var headerDisplay = document.getElementById("screenHeader");
 	 var resultDisplay = document.getElementById("screenResultDisplay");
 	 
-	 var calculatorIsOn = false;
 	 var screenMemory = "";
 	 var shiftIsOn = false;
+	 var isResultShown = false;
+	 var calculatorIsOn = false;
 	 
 	 function initialState(){
 		display.innerHTML = "";
@@ -36,14 +37,40 @@
 	 function SQR(x){return Math.sqrt(x);}
 	 //function factorial(x){return Math.cos(x);}
  
-	var isResultShown = false;
+ 
+//*****************************************MEMORY******************************************************
 	//saves all the values pressed and then show them together on screen
+	
+	var memory = {
+		data: [],	
+	    sendValue: function(string){
+			    this.data.push(string);
+		},
+		deleteValue: function(){
+				this.data.pop();
+		},
+        toString: function(){
+			return this.data.join("");
+		}		
+	}
 	  function sendToScreen(string){
-		if(screenMemory.length<=9){
-			screenMemory += string;
-		    display.innerHTML = screenMemory;
+		if(memory.toString().length<=9){
+			memory.sendValue(string);
+		    display.innerHTML = memory.toString();
 		}
 		isResultShown = false;
+	  }
+	 //takes the stored value in memory and show it on the screen 
+	  function showResultOnScreen(){
+		var result = eval(screenMemory);
+		result = controlSizeOf(result);
+		resultDisplay.innerHTML = result;
+	  }
+	  //sends screen memory to ANS to be stored
+    var Ans = 0;	
+	  function toAnsMemory(){
+		Ans = eval(screenMemory);
+	    screenMemory = "";
 	  }
 	//deletes only the last element shown on the screen
 	  function screenDelete(){
@@ -51,7 +78,8 @@
 		screenMemory = screenMemory.slice(0, lastPosition);
 		display.innerHTML = screenMemory;
 	  }
-	  
+//*****************************************END******************************************************  
+
 	  //limits the size of the output to 12 digits at most
 	  function controlSizeOf(result){
 		var resultRegex = /(\d+)(?:[.](\d+))?/;
@@ -71,20 +99,6 @@
 		}
 		else if(result.toString().length>11) result = result.toExponential(6);
 		return result;
-	  }
-	  
-      //takes the stored value in memory and show it on the screen 
-	  function showResultOnScreen(){
-		var result = eval(screenMemory);
-		result = controlSizeOf(result);
-		resultDisplay.innerHTML = result;
-	  }
-	  
-	//sends screen memory to ANS to be stored
-    var Ans = 0;	
-	  function toAnsMemory(){
-		Ans = eval(screenMemory);
-	    screenMemory = "";
 	  }
     //indicates whether the shift button is active or not
 	  function turnShiftOn(){
