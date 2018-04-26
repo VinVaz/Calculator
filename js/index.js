@@ -1,42 +1,76 @@
-//get the three displayers of the calculator
-var mainDisplay = document.getElementById("displayScreen");
-var headerDisplay = document.getElementById("screenHeader");
-var resultDisplay = document.getElementById("screenResultDisplay");
 
-var isResultShown = false;
-var isCalculatorOn = false;
- 
-//sets the memory that will store all the values passed
-var memory = {
-  memoryCore: [],	
-  add: function(string){
-    this.memoryCore.push(string);
+var calculator = {
+  isOn: false,
+  turnOn: function(){
+	this.isOn = true;
+	this.clear();
+	resultDisplay.write("0");
   },
-  deleteLast: function(){
-    this.memoryCore.pop();
-  },
-  getStringContent: function(){
-    return this.memoryCore.join("");
+  turnOff: function(){
+    this.clear();
+	this.isOn = false;
   },
   clear: function(){
-    this.memoryCore = [];
-  }		
+    mainDisplay.clear();
+    headerDisplay.clear();
+    resultDisplay.clear();
+    memory.clear();
+  }
+};
+
+//sets memory with a protected core array that store its values 
+function Memory(){
+  var _memoryCore = [];	
+  this.add = function(string){
+    _memoryCore.push(string);
+  };
+  this.deleteLast = function(){
+    _memoryCore.pop();
+  };
+  this.getContent = function(){
+    return _memoryCore.join("");
+  };
+  this.clear = function(){
+    _memoryCore = [];
+  };		
 }
+
+//creates displayer component of the calculator
+function Display(id){
+  this.id = id;
+  this.isOn = false;
+  this.clear = function(){
+    document.getElementById(this.id).innerHTML = "";
+  }
+  this.write = function(text){
+    document.getElementById(this.id).innerHTML = text;
+  }	
+}
+
+var memory = new Memory();
+
+//create three displays to show information about the calculator
+var mainDisplay = new Display("displayScreen");
+var headerDisplay =  new Display("screenHeader");
+var resultDisplay =  new Display("screenResultDisplay");
+
 //shows whether the shift button is active or not
 var shiftButton = {
   isShiftOn: false,
-    turnOn: function(){
-	  this.isShiftOn = true;
-	  headerDisplay.innerHTML = "shift";
+  turnOn: function(){
+	this.isShiftOn = true;
+	headerDisplay.write("shift");
   },
   turnOff: function(){
     this.isShiftOn = false;
-    headerDisplay.innerHTML = "";
+    headerDisplay.clear();
   }
 };
+
 //global constantsthat will be used by the eval function
 var pi = Math.PI;
-var e = Math.E;	
+var e = Math.E;
+	
 //global functions that will be used by the eval function
 function sin(x){return Math.sin(x);}
 function cos(x){return Math.cos(x);}
@@ -56,57 +90,62 @@ function fact(x){
   } 
   return last;
 }
+
 //starts the calculator
 document.getElementById("onButton").onclick = function(){
-  clearCalculator();
-  resultDisplay.innerHTML = "0";
-  isCalculatorOn = true;
+  calculator.turnOn();
 };
+
 //sets the shift button's action when clicked
 document.getElementById("shiftButton").onclick = function(){
-  if(isCalculatorOn){
-    if(shiftButton.isShiftOn) shiftButton.turnOff();
+  if(calculator.isOn){
+    if(shiftButton.isShiftOn){
+	  shiftButton.turnOff();
+	} 
     else shiftButton.turnOn();
   }
-};  
+};
+  
 //ac button also shuts the calculator off
 document.getElementById("acButton").onclick = function(){
-  if(isCalculatorOn){
-    clearCalculator();
-	  if(shiftButton.isShiftOn){
-	    isCalculatorOn = false;
-	  }		
+  if(calculator.isOn){
+    calculator.clear();
+	resultDisplay.write("0");
+	if(shiftButton.isShiftOn){
+	  calculator.turnOff();
+	}		
   }
 };
+
 //deletes the last value to appear on screen
 document.getElementById("deleteButton").onclick = function(){
-  if(isCalculatorOn){
-    deleteLastFromMainDisplay();
+  if(calculator.isOn){
+    memory.deleteLast();
+    mainDisplay.write(memory.getContent());
   }
 };
-//provides the result on the screen
+
 document.getElementById("resultButton").onclick = function(){
-  if(isCalculatorOn){
-	if(isResultShown==false){
+  if(calculator.isOn){
+	if(resultDisplay.isOn==false){
 	  showResult();
 	  saveAnsMemory();
-	  mainDisplay.innerHTML = "";
+	  mainDisplay.clear();
 	  shiftButton.turnOff();
 	}
-	isResultShown = true;
+	resultDisplay.isOn = true;
   }		
 };
+
 //simplify the process of evaluating the buttons with their correspondent string value
 function valueBtn(id, val){
   document.getElementById(id).addEventListener("click", function(){
-    if(isCalculatorOn){
+    if(calculator.isOn){
       sendValToMainDisplay(val);
       shiftButton.turnOff();
     }
   });
 }
-//receives the button's id as the first paramether and the  
-//value that these buttons represent as the second paramether
 valueBtn("oneButton", "1");
 valueBtn("twoButton", "2");
 valueBtn("threeButton", "3");
@@ -127,17 +166,16 @@ valueBtn("divisionButton", "/");
 valueBtn("multiplicationButton", "*");
 valueBtn("ansButton", "Ans");
 
-//simplify the process of giving to buttons their values after triggered by shift
+//simplify the process of giving to the buttons their values after triggered by shift
 function valueBtnAfterShift(id, valWhenShiftOff, valWhenShiftOn){
   document.getElementById(id).onclick = function(){
-	if(isCalculatorOn){
+	if(calculator.isOn){
 	  if(shiftButton.isShiftOn) sendValToMainDisplay(valWhenShiftOn);
 	  else sendValToMainDisplay(valWhenShiftOff);
 	  shiftButton.turnOff();
     }
   };
 }
-// buttons that are triggered by the shift button
 valueBtnAfterShift("expButton", "", "pi");
 valueBtnAfterShift("sinButton", "sin(", "asin(");
 valueBtnAfterShift("cosButton", "cos(", "accos(");
@@ -148,40 +186,40 @@ valueBtnAfterShift("powerOfButton", "^(", "sqrt(");
   
 //send a value to the memory and then it is shown on to the display
 function sendValToMainDisplay(string){
-  if(memory.getStringContent().length <= 9){
+  if(memory.getContent().length <= 9){
     memory.add(string);
-    mainDisplay.innerHTML = memory.getStringContent();
+    mainDisplay.write(memory.getContent());
   }
-isResultShown = false;
+  resultDisplay.isOn = false;
 }
-function evaluatedMemory(){
-  var n = filterBeforeEval(memory.getStringContent());
-  return eval(n);
-}
+
 //takes the stored values in memory and show them on the result display
 function showResult(){
-  var result = controlSizeOf(evaluatedMemory());
-  resultDisplay.innerHTML = result;
+  try{	
+    var result = controlSizeOf(evaluatedMemory());
+    resultDisplay.write(result);
+  }catch(err){
+	  resultDisplay.write(err.name);
+  }
 }
+
 //sends screen memory to ANS to be stored for future calls
 var Ans = 0;	
 function saveAnsMemory(){
   Ans = evaluatedMemory();
   memory.clear();
 }
-//deletes only the last element shown on screen
-function deleteLastFromMainDisplay(){
-  memory.deleteLast();
-  mainDisplay.innerHTML = memory.getStringContent();
+
+function evaluatedMemory(){
+	try{	
+	  var n = filterBeforeEval(memory.getContent());
+      return eval(n);
+	}catch(err){
+	  resultDisplay.write(err.name);
+	}
 }
-function clearCalculator(){
-  mainDisplay.innerHTML = "";
-  headerDisplay.innerHTML = "";
-  resultDisplay.innerHTML = "";
-  memory.clear();
-}
-//add some changes in the way some functions are presented
-function filterBeforeEval(arg){
+
+function filterBeforeEval(arg){ 
 var replaced = "";
   //replaces the power notation with pow() when the exponent is negative
   replaced = arg.replace(/(\d+[.]?\d*)(?:[\^][(][-])(\d+[.]?\d*)(?:[)])/g, `1/(pow($1, $2))`);
@@ -191,40 +229,49 @@ var replaced = "";
   replaced = replaced.replace(/(\d+[.]?\d*)(?:[!])/g, `fact($1)`);
 return replaced;		
 }
-//limits the size of all the numbers format to 12 digits at most
+
+//limits the size of a number so that it can fit in the screen
 function controlSizeOf(num){
-var result = 0;
+  var result = 0;
   if(num%1 != 0){
-    result = controlsSizeOfFloat(num);
+    result = makeSizeOfDecimalsConstant(num);
     result = removesTraillingZeros(result);			
   }
   else result = num;
   result = convertBigNumToExponential(result);
-return result;
+  return result;
 }
+
 function removesTraillingZeros(num){
-var myRegex = /([.]\d*[1-9]+)[0]+(?!\d)/;
-return Number(num.toString().replace(myRegex, '$1'));
+  var myRegex = /([.]\d*[1-9]+)[0]+(?!\d)/;
+  return Number(num.toString().replace(myRegex, '$1'));
 }
+
 function convertBigNumToExponential(num){
-var newNum = 0;
-var maxSize = 12;
-var sizeOfExponential = 6;
-  if(num.toString().length > maxSize)newNum = num.toExponential(sizeOfExponential);
-  else newNum = num;
-return newNum;
+  var maxSize = 12;
+  var sizeOfExponential = 6;
+  if(num.toString().length > maxSize){
+    return num.toExponential(sizeOfExponential);  
+  } 
+  else return num;
 }
+
 //controls the relation bettween the size of the integer
-//and the decimal so that the total size is constant
-function controlsSizeOfFloat(num){
-var myRegex = /(\d+)(?:[.](\d+))?/;
-var decimalMaxLength = "";
-var myArr = myRegex.exec(num.toString());
-var integerOfNum = myArr[1];
-var integerLength = integerOfNum.toString().length;
-  if(integerLength <= 11) decimalMaxLength = 11 - integerLength;
+//and the fractional part of a decimal number so that its 
+//total size is constant
+function makeSizeOfDecimalsConstant(num){
+  var myRegex = /(\d+)(?:[.](\d+))?/;
+  var decimalMaxLength = "";
+  var myArr = myRegex.exec(num.toString());
+  var integerOfNum = myArr[1];
+  var integerLength = integerOfNum.length;
+  
+  if(integerLength <= 11){
+    decimalMaxLength = 11 - integerLength; 
+  } 
   else decimalMaxLength = 0;
-return num.toFixed(decimalMaxLength);	
+  
+  return num.toFixed(decimalMaxLength);	
 }	 
 
 
